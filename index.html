@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1769e0">
+  <title>Face-Chat Social</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Face-Chat Social Home">Face-Chat <span>Social</span></a>
+    <div class="top-actions">
+      <span id="signedInLabel" class="muted"></span>
+      <button id="logoutBtn" class="btn btn-light hidden">Log out</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="authScreen" class="auth-layout">
+      <div class="intro">
+        <div class="brand brand-large">Face-Chat <span>Social</span></div>
+        <h1>Connect with your people.</h1>
+        <p>Share updates, meet friends and chat in one place.</p>
+      </div>
+      <div class="panel auth-panel">
+        <h2 id="authHeading">Log in</h2>
+        <form id="authForm">
+          <label id="nameFieldWrap" class="hidden">Your name
+            <input id="authName" maxlength="60" autocomplete="name" placeholder="Your name">
+          </label>
+          <label>Email
+            <input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+          </label>
+          <label>Password
+            <input id="authPassword" type="password" minlength="6" autocomplete="current-password" required placeholder="At least 6 characters">
+          </label>
+          <button id="authSubmit" class="btn btn-primary btn-wide" type="submit">Log in</button>
+        </form>
+        <p id="authError" class="message error" role="alert"></p>
+        <div class="auth-divider"></div>
+        <button id="authModeBtn" class="btn btn-green btn-wide" type="button">Create new account</button>
+        <p class="small muted">Use a valid email. Never share your password with anyone.</p>
+      </div>
+    </section>
+
+    <section id="appScreen" class="app-layout hidden">
+      <aside class="sidebar panel">
+        <div class="side-profile">
+          <div id="myAvatar" class="avatar">F</div>
+          <div><strong id="myName">Your profile</strong><div id="myEmail" class="small muted"></div></div>
+        </div>
+        <nav class="nav-list" aria-label="Main navigation">
+          <button class="nav-btn active" data-view="feed">🏠 <span>Home Feed</span></button>
+          <button class="nav-btn" data-view="friends">👥 <span>Friends</span></button>
+          <button class="nav-btn" data-view="messages">💬 <span>Messenger</span></button>
+          <button class="nav-btn" data-view="stories">⭕ <span>Stories</span></button>
+          <button class="nav-btn" data-view="profile">👤 <span>My Profile</span></button>
+          <button id="adminNavBtn" class="nav-btn hidden" data-view="admin">🛡️ <span>Admin Panel</span></button>
+        </nav>
+        <p class="small muted sidebar-note">Face-Chat Social starter</p>
+      </aside>
+
+      <section class="main-column">
+        <div id="globalNotice" class="message"></div>
+
+        <section id="view-feed" class="view">
+          <div class="panel stories-strip">
+            <div><h2>Stories</h2><p class="small muted">Recent stories from people</p></div>
+            <button class="btn btn-light" data-go="stories">View stories</button>
+            <div id="storyPreview" class="story-preview"></div>
+          </div>
+
+          <form id="postForm" class="panel post-composer">
+            <h2>Create a post</h2>
+            <textarea id="postText" maxlength="3000" placeholder="What’s on your mind?" rows="3"></textarea>
+            <div class="composer-bottom">
+              <label class="file-label">📷 Photo / video
+                <input id="postFile" type="file" accept="image/*,video/*">
+              </label>
+              <span id="postFileName" class="small muted">Optional, max 20 MB</span>
+              <button class="btn btn-primary" type="submit">Publish</button>
+            </div>
+            <p id="postError" class="message error"></p>
+          </form>
+          <div id="feedList" class="stack"><div class="panel">Loading feed…</div></div>
+        </section>
+
+        <section id="view-friends" class="view hidden">
+          <div class="panel"><h2>Find friends</h2><p class="muted small">Search by exact email address.</p>
+            <form id="friendSearchForm" class="inline-form"><input id="friendEmail" type="email" required placeholder="friend@example.com"><button class="btn btn-primary">Search</button></form>
+            <p id="friendSearchMessage" class="message"></p>
+          </div>
+          <div class="panel"><h2>Friend requests</h2><div id="incomingRequests" class="stack compact">Loading…</div></div>
+          <div class="panel"><h2>Sent requests</h2><div id="outgoingRequests" class="stack compact">Loading…</div></div>
+          <div class="panel"><h2>My friends</h2><div id="friendsList" class="stack compact">Loading…</div></div>
+        </section>
+
+        <section id="view-messages" class="view hidden">
+          <div class="panel"><h2>Messenger</h2><p class="small muted">Select a friend to open a conversation.</p>
+            <div class="chat-layout">
+              <div id="chatContacts" class="chat-contacts">Your friends will appear here.</div>
+              <div class="chat-window">
+                <div id="chatHeading" class="chat-heading">Choose a friend</div>
+                <div id="chatMessages" class="chat-messages"></div>
+                <form id="chatForm" class="chat-form">
+                  <input id="chatText" maxlength="2000" placeholder="Write a message…" disabled>
+                  <button class="btn btn-primary" disabled>Send</button>
+                </form>
+                <p id="chatError" class="message error"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-stories" class="view hidden">
+          <form id="storyForm" class="panel">
+            <h2>Add a story</h2><p class="small muted">Stories are set to expire after 24 hours. Max 20 MB.</p>
+            <input id="storyFile" type="file" accept="image/*,video/*" required>
+            <button class="btn btn-primary" type="submit">Upload story</button>
+            <p id="storyError" class="message error"></p>
+          </form>
+          <div class="panel"><h2>Recent stories</h2><div id="storiesList" class="media-grid">Loading…</div></div>
+        </section>
+
+        <section id="view-profile" class="view hidden">
+          <form id="profileForm" class="panel">
+            <h2>My profile</h2>
+            <label>Display name<input id="profileDisplayName" maxlength="60" required></label>
+            <label>Bio<textarea id="profileBio" maxlength="240" rows="3" placeholder="A little about you"></textarea></label>
+            <label>Profile photo URL (optional)<input id="profilePhotoURL" type="url" placeholder="https://…"></label>
+            <button class="btn btn-primary">Save profile</button>
+            <p id="profileMessage" class="message"></p>
+          </form>
+        </section>
+
+        <section id="view-admin" class="view hidden">
+          <div class="panel"><h2>Admin Panel</h2>
+            <div class="notice">Admin access must be granted securely by setting the Firebase Authentication custom claim <code>admin: true</code> using a trusted server/Admin SDK. Do not grant admin access from this browser app.</div>
+            <h3>Recent posts</h3><div id="adminPosts" class="stack compact">Checking admin access…</div>
+          </div>
+        </section>
+      </section>
+    </section>
+    <footer>Face-Chat Social · Free-tier starter · Protect your Firebase rules before launch.</footer>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
